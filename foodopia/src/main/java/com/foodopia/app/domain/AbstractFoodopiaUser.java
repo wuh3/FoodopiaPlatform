@@ -5,16 +5,20 @@ import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.TypeAlias;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.Collections;
 
 @TypeAlias("AbstractFoodopiaUser")
-public abstract class AbstractFoodopiaUser {
+public abstract class AbstractFoodopiaUser implements UserDetails {
     @Id
     private Long _id;
     protected String username;
     protected String password;
-    protected String alias;
-    protected String firstName;
-    protected String lastName;
+    protected String email;
     protected Role role;
 
     public enum Role {
@@ -26,56 +30,21 @@ public abstract class AbstractFoodopiaUser {
     public AbstractFoodopiaUser(
             @NonNull String username,
             @NonNull String password,
-            @DefaultValue("UnknownUser") String alias,
-            String firstName,
-            String lastName,
+            @NonNull String email,
             @NonNull Role role) {
         this.username = username;
         this.password = password;
-        this.alias = alias;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.email = email;
         this.role = role;
     }
 
-    protected String getUsername() {
-        return username;
-    }
 
     protected void setUsername(String username) {
         this.username = username;
     }
 
-    protected String getPassword() {
-        return password;
-    }
-
     protected void setPassword(String password) {
         this.password = password;
-    }
-
-    protected String getAlias() {
-        return alias;
-    }
-
-    protected void setAlias(String alias) {
-        this.alias = alias;
-    }
-
-    protected String getFirstName() {
-        return firstName;
-    }
-
-    protected void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    protected String getLastName() {
-        return lastName;
-    }
-
-    protected void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     protected Role getRole() {
@@ -84,6 +53,42 @@ public abstract class AbstractFoodopiaUser {
 
     protected void setRole(Role role) {
         this.role = role;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        // Provide role-based authority, e.g., ROLE_CUSTOMER
+        return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + getRole().name()));
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true; // Customize as needed
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true; // Customize as needed
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true; // Customize as needed
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true; // Customize as needed
     }
 
 }
