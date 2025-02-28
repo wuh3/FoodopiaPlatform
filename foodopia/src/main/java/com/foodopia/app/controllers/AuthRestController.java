@@ -74,7 +74,6 @@ public class AuthRestController {
 
     private String generateToken(Authentication authentication) {
         Date now = new Date();
-        // Token validity period (in milliseconds), e.g., 86400000 = 1 day
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
         Algorithm algorithm = Algorithm.HMAC256(jwtSecret);

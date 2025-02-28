@@ -15,7 +15,7 @@ import java.util.Collections;
 @TypeAlias("AbstractFoodopiaUser")
 public abstract class AbstractFoodopiaUser implements UserDetails {
     @Id
-    private Long _id;
+    private String _id;
     protected String username;
     protected String password;
     protected String email;
@@ -38,6 +38,7 @@ public abstract class AbstractFoodopiaUser implements UserDetails {
         this.role = role;
     }
 
+    public String getId() {return this._id;}
 
     protected void setUsername(String username) {
         this.username = username;
@@ -46,6 +47,8 @@ public abstract class AbstractFoodopiaUser implements UserDetails {
     protected void setPassword(String password) {
         this.password = password;
     }
+
+    public String getEmail() {return this.email;}
 
     protected Role getRole() {
         return role;
