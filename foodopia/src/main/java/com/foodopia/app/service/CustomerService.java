@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.foodopia.app.repository.CustomerRepository;
+import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -43,4 +44,19 @@ public class CustomerService {
 
         return customerRepository.save(customer);
     }
+
+    public Optional<Customer> findByUsername(String username) {
+        return customerRepository.findByUsername(username);
+    }
+
+//    public boolean authenticateCustomer(String username, String rawPassword) {
+//        Optional<Customer> customerOpt = customerRepository.findByUsername(username);
+//
+//        if (customerOpt.isPresent()) {
+//            Customer customer = customerOpt.get();
+//            return passwordEncoder.matches(rawPassword, customer.getPassword());
+//        }
+//
+//        return false;
+//    }
 }

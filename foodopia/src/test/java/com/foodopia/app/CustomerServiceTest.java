@@ -48,4 +48,9 @@ public class CustomerServiceTest {
         assertEquals("testuser", retrievedCustomer.getUsername(), "Username should match");
         assertEquals("testuser@example.com", retrievedCustomer.getEmail(), "Email should match");
     }
+
+    @Test
+    public void testRegistrationFormat() {
+        RegistrationDto registrationDto = new RegistrationDto();
+    }
 }

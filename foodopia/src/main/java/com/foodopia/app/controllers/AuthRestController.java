@@ -21,6 +21,8 @@ import com.auth0.jwt.algorithms.Algorithm;
 import jakarta.validation.Valid;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/api/auth")
@@ -70,6 +72,15 @@ public class AuthRestController {
         }
 
         return ResponseEntity.ok("User registered successfully");
+    }
+
+    @GetMapping("/check-username/{username}")
+    public ResponseEntity<Map<String, Object>> checkUsernameAvailability(@PathVariable String username) {
+        Map<String, Object> response = new HashMap<>();
+        boolean exists = customerService.findByUsername(username).isPresent();
+
+        response.put("available", !exists);
+        return ResponseEntity.ok(response);
     }
 
     private String generateToken(Authentication authentication) {
