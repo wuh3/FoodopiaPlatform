@@ -49,14 +49,14 @@ public class CustomerService {
         return customerRepository.findByUsername(username);
     }
 
-//    public boolean authenticateCustomer(String username, String rawPassword) {
-//        Optional<Customer> customerOpt = customerRepository.findByUsername(username);
-//
-//        if (customerOpt.isPresent()) {
-//            Customer customer = customerOpt.get();
-//            return passwordEncoder.matches(rawPassword, customer.getPassword());
-//        }
-//
-//        return false;
-//    }
+    public boolean authenticateCustomer(String username, String rawPassword) {
+        Optional<Customer> customerOpt = customerRepository.findByUsername(username);
+
+        if (customerOpt.isPresent()) {
+            Customer customer = customerOpt.get();
+            return passwordEncoder.matches(rawPassword, customer.getPassword());
+        }
+
+        return false;
+    }
 }
