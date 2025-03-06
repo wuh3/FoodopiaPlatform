@@ -24,7 +24,8 @@ public abstract class AbstractFoodopiaUser implements UserDetails {
     public enum Role {
         ADMIN,
         CUSTOMER,
-        KITCHEN
+        KITCHEN,
+        OPERATOR,
     }
 
     public AbstractFoodopiaUser(
