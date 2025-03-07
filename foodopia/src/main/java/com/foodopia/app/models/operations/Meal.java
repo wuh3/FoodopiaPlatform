@@ -12,11 +12,11 @@ public class Meal implements ICostCalculable {
     @Id
     private String id;
     private String customerId;
-    private String subscriptionId; // Link to the subscription this meal belongs to
-    private List<String> dishIds; // Referenced dish IDs
+    private String subscriptionId;
+    private List<String> dishIds;
 
     @DBRef(lazy = true)
-    private List<Dish> dishes; // The actual dish objects, loaded on demand
+    private List<Dish> dishes;
 
     private int numberOfDishes;
     private Date scheduledDeliveryDate;
@@ -26,7 +26,7 @@ public class Meal implements ICostCalculable {
     private Date createdAt;
     private Date updatedAt;
 
-    // Additional fields for cost calculation
+    // Cost calculation fields
     private double packagingCost;
     private double deliveryCost;
 
@@ -35,7 +35,9 @@ public class Meal implements ICostCalculable {
         PREPARING,
         OUT_FOR_DELIVERY,
         DELIVERED,
-        CANCELLED
+        CANCELLED,
+        COMPLETED,
+        RATED
     }
 
     @Override
@@ -51,6 +53,7 @@ public class Meal implements ICostCalculable {
         return dishesCost + packagingCost + deliveryCost;
     }
 
+    // Standard getters and setters
     public String getId() {
         return id;
     }
@@ -89,7 +92,6 @@ public class Meal implements ICostCalculable {
 
     public void setDishes(List<Dish> dishes) {
         this.dishes = dishes;
-        // Also update the dishIds
         if (dishes != null) {
             this.dishIds = dishes.stream()
                     .map(Dish::getId)
